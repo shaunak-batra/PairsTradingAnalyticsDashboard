@@ -11,7 +11,6 @@ Production-grade statistical arbitrage analytics for cryptocurrency markets with
 - [Implementation Details](#implementation-details)
 - [API Reference](#api-reference)
 - [Design Decisions](#design-decisions)
-- [AI Assistance Documentation](#ai-assistance-documentation)
 - [Performance Metrics](#performance-metrics)
 - [Future Enhancements](#future-enhancements)
 
