@@ -1,6 +1,6 @@
 # Real-Time Pairs Trading Analytics Platform
 
-> Production-grade statistical arbitrage analytics for cryptocurrency markets with live Binance data integration
+Production-grade statistical arbitrage analytics for cryptocurrency markets with live Binance data integration
 
 ## Table of Contents
 
