@@ -1339,14 +1339,3 @@ MIT License - See [LICENSE](LICENSE) file for details.
 **Mathematical Reference**: "Pairs Trading: Quantitative Methods and Analysis" by Ganapathy Vidyamurthy
 **AI Assistant**: Claude Code (Anthropic) - See [AI Assistance Documentation](#ai-assistance-documentation)
 
----
-
-## Contact
-
-For questions or feedback:
-- GitHub Issues: [Project Issues](https://github.com/yourusername/pairs-trading/issues)
-- Email: your.email@example.com
-
----
-
-**Built with ❤️ for quantitative traders**
