@@ -1201,17 +1201,7 @@ Caching:    Redis for frequently accessed analytics
 CDN:        CloudFlare for static assets
 ```
 
----
-
-## License
-
-MIT License - See [LICENSE](LICENSE) file for details.
-
----
-
 ## Acknowledgments
 
 **Data Source**: Binance WebSocket API (free public streams)
 **Mathematical Reference**: "Pairs Trading: Quantitative Methods and Analysis" by Ganapathy Vidyamurthy
-**AI Assistant**: Claude Code (Anthropic) - See [AI Assistance Documentation](#ai-assistance-documentation)
-
