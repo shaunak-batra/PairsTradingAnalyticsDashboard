@@ -114,75 +114,75 @@ Vite             - Build tool with HMR
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
-│                         BINANCE EXCHANGE                         │
-│                  wss://stream.binance.com:9443                   │
+│                         BINANCE EXCHANGE                        │
+│                  wss://stream.binance.com:9443                  │
 └────────────────────────────┬────────────────────────────────────┘
                              │ WebSocket Streams
                              │ (miniTicker + kline_1m)
                              ▼
 ┌─────────────────────────────────────────────────────────────────┐
-│                      BACKEND (Python/FastAPI)                    │
+│                      BACKEND (Python/FastAPI)                   │
 ├─────────────────────────────────────────────────────────────────┤
-│  ┌──────────────────────────────────────────────────────────┐  │
-│  │            Binance WebSocket Client                       │  │
-│  │  • Dual connection: REST API + WebSocket                 │  │
-│  │  • Historical seeding: 100 candles on startup            │  │
-│  │  • Live updates: prices, OHLC, volumes                   │  │
-│  │  • Data structure: deque (maxlen=200) for efficiency     │  │
-│  └──────────────────────────────────────────────────────────┘  │
-│                             │                                    │
-│  ┌──────────────────────────▼──────────────────────────────┐  │
-│  │            Analytics Service                              │  │
-│  │  • OLS: Ordinary Least Squares (statsmodels)             │  │
-│  │  • Kalman Filter: Dynamic hedge estimation              │  │
-│  │  • Huber: Robust to outliers (M-estimator)              │  │
-│  │  • Theil-Sen: Median-based slope estimation             │  │
-│  │  • ADF Test: Stationarity detection (p<0.05)            │  │
-│  │  • Z-Score: Rolling window normalization (σ=20)         │  │
-│  └──────────────────────────────────────────────────────────┘  │
-│                             │                                    │
-│  ┌──────────────────────────▼──────────────────────────────┐  │
-│  │            FastAPI Application                            │  │
-│  │  REST Endpoints:                                          │  │
-│  │    POST /api/analytics/compute                           │  │
-│  │    POST /api/analytics/adf-test                          │  │
-│  │    GET  /api/analytics/correlation-matrix                │  │
-│  │    GET  /api/analytics/export                            │  │
-│  │                                                           │  │
-│  │  WebSocket Endpoint:                                      │  │
-│  │    WS  /ws/live (1-second broadcasts)                    │  │
-│  └──────────────────────────────────────────────────────────┘  │
+│  ┌──────────────────────────────────────────────────────────┐   │
+│  │            Binance WebSocket Client                      │   │
+│  │  • Dual connection: REST API + WebSocket                 │   │
+│  │  • Historical seeding: 100 candles on startup            │   │ 
+│  │  • Live updates: prices, OHLC, volumes                   │   │
+│  │  • Data structure: deque (maxlen=200) for efficiency     │   │
+│  └──────────────────────────────────────────────────────────┘   │
+│                             │                                   │
+│  ┌──────────────────────────▼──────────────────────────────┐    │
+│  │            Analytics Service                            │    │
+│  │  • OLS: Ordinary Least Squares (statsmodels)            │    │
+│  │  • Kalman Filter: Dynamic hedge estimation              │    │
+│  │  • Huber: Robust to outliers (M-estimator)              │    │
+│  │  • Theil-Sen: Median-based slope estimation             │    │
+│  │  • ADF Test: Stationarity detection (p<0.05)            │    │
+│  │  • Z-Score: Rolling window normalization (σ=20)         │    │
+│  └──────────────────────────────────────────────────────────┘   │
+│                             │                                   │
+│  ┌──────────────────────────▼──────────────────────────────┐    │
+│  │            FastAPI Application                           │   │
+│  │  REST Endpoints:                                         │   │
+│  │    POST /api/analytics/compute                           │   │
+│  │    POST /api/analytics/adf-test                          │   │
+│  │    GET  /api/analytics/correlation-matrix                │   │
+│  │    GET  /api/analytics/export                            │   │
+│  │                                                          │   │
+│  │  WebSocket Endpoint:                                     │   │
+│  │    WS  /ws/live (1-second broadcasts)                    │   │
+│  └──────────────────────────────────────────────────────────┘   │
 └────────────────────────────┬────────────────────────────────────┘
                              │ HTTP/WebSocket
                              │ (CORS: localhost:5177)
                              ▼
 ┌─────────────────────────────────────────────────────────────────┐
-│                    FRONTEND (React/TypeScript)                   │
+│                    FRONTEND (React/TypeScript)                  │
 ├─────────────────────────────────────────────────────────────────┤
-│  ┌──────────────────────────────────────────────────────────┐  │
-│  │            State Management (React Hooks)                 │  │
-│  │  • allPrices: {symbol → price} mapping                   │  │
-│  │  • allOhlc: {symbol → OHLC[]} buffering                  │  │
-│  │  • analytics: Computed results cache                     │  │
-│  │  • Reactive updates on symbol/timeframe change           │  │
-│  └──────────────────────────────────────────────────────────┘  │
-│                             │                                    │
-│  ┌──────────────────────────▼──────────────────────────────┐  │
-│  │            Visualization Layer (Plotly.js)                │  │
-│  │  • Candlestick Charts (2): Symbol A & B                  │  │
-│  │  • Spread Chart: Dual y-axis with threshold lines        │  │
-│  │  • Heatmap: 4x4 correlation matrix                       │  │
-│  │  • Key-based re-rendering for live updates               │  │
-│  └──────────────────────────────────────────────────────────┘  │
-│                             │                                    │
-│  ┌──────────────────────────▼──────────────────────────────┐  │
-│  │            User Interface                                 │  │
-│  │  • Symbol selectors (dropdowns)                          │  │
-│  │  • Timeframe toggle (1s/1m/5m)                           │  │
-│  │  • Regression type selector                              │  │
-│  │  • Alert manager (CRUD operations)                       │  │
-│  │  • Export button (CSV download)                          │  │
-│  └──────────────────────────────────────────────────────────┘  │
+│  ┌──────────────────────────────────────────────────────────┐   │
+│  │            State Management (React Hooks)                │   │
+│  │  • allPrices: {symbol → price} mapping                   │   │
+│  │  • allOhlc: {symbol → OHLC[]} buffering                  │   │
+│  │  • analytics: Computed results cache                     │   │
+│  │  • Reactive updates on symbol/timeframe change           │   │
+│  └──────────────────────────────────────────────────────────┘   │
+│                             │                                   │
+│  ┌──────────────────────────▼──────────────────────────────┐    │
+│  │            Visualization Layer (Plotly.js)               │   │
+│  │  • Candlestick Charts (2): Symbol A & B                  │   │
+│  │  • Spread Chart: Dual y-axis with threshold lines        │   │
+│  │  • Heatmap: 4x4 correlation matrix                       │   │
+│  │  • Key-based re-rendering for live updates               │   │
+│  └──────────────────────────────────────────────────────────┘   │
+│                             │                                   │
+│  ┌──────────────────────────▼──────────────────────────────┐    │
+│  │            User Interface                                │   │
+│  │  • Symbol selectors (dropdowns)                          │   │
+│  │  • Timeframe toggle (1s/1m/5m)                           │   │
+│  │  • Regression type selector                              │   │
+│  │  • Alert manager (CRUD operations)                       │   │
+│  │  • Export button (CSV download)                          │   │
+│  └──────────────────────────────────────────────────────────┘   │
 └─────────────────────────────────────────────────────────────────┘
 ```
 
